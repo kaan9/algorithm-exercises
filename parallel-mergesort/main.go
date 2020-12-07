@@ -13,7 +13,7 @@ func merge(s []int, quit chan int) {
 		quit <- 0
 		return
 	}
-	l, r := make([]int, len(s) / 2), make([]int, len(s) - len(s) / 2)
+	l, r := make([]int, len(s)/2), make([]int, len(s)-len(s)/2)
 	copy(l, s[:len(s)/2])
 	copy(r, s[len(s)/2:])
 	q := make(chan int)
@@ -24,10 +24,10 @@ func merge(s []int, quit chan int) {
 	i, j := 0, 0
 	for i < len(l) && j < len(r) {
 		if l[i] <= r[j] {
-			s[i + j] = l[i]
+			s[i+j] = l[i]
 			i++
 		} else {
-			s[i + j] = r[j]
+			s[i+j] = r[j]
 			j++
 		}
 	}
