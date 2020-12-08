@@ -28,7 +28,7 @@ func (s *Stack) Peek() (uint, bool) {
 	if len(s.s) == 0 {
 		return 0, false
 	}
-	return s.s[len(s.s) - 1], true
+	return s.s[len(s.s)-1], true
 }
 
 func (q *Queue) Peek() (uint, bool) {
@@ -42,7 +42,7 @@ func (s *Stack) Pop() (uint, bool) {
 	if len(s.s) == 0 {
 		return 0, false
 	}
-	v := s.s[len(s.s) - 1]
+	v := s.s[len(s.s)-1]
 	s.s = s.s[:len(s.s)-1]
 	return v, true
 }
@@ -56,7 +56,6 @@ func (q *Queue) Pop() (uint, bool) {
 	return v, true
 }
 
-
 func (s *Stack) Push(v uint) {
 	s.s = append(s.s, v)
 }
@@ -64,4 +63,3 @@ func (s *Stack) Push(v uint) {
 func (q *Queue) Push(v uint) {
 	q.q = append(q.q, v)
 }
-
