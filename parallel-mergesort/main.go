@@ -3,14 +3,13 @@ package main
 import "fmt"
 
 func merge(s []int, quit chan int) {
+	defer func() { quit <- 0 }()
 	if len(s) <= 1 {
-		quit <- 0
 		return
 	} else if len(s) == 2 {
 		if s[0] > s[1] {
 			s[0], s[1] = s[1], s[0]
 		}
-		quit <- 0
 		return
 	}
 	l, r := make([]int, len(s)/2), make([]int, len(s)-len(s)/2)
@@ -37,7 +36,6 @@ func merge(s []int, quit chan int) {
 	if j < len(r) {
 		copy(s[i+j:], r[j:])
 	}
-	quit <- 0
 }
 
 func main() {
