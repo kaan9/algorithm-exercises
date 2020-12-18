@@ -10,7 +10,9 @@ import (
 
 // builds a sorted array as it receives values from c
 // returns the current array when caller reads from quit and ends routine
-func InsSort(c chan int, quit chan []int) {
+// when a value is read from request, a copy of the array is sent through reply
+// request, reply, and quit may be nil
+func InsSort(c <-chan int, request <-chan int, reply chan<- []int, quit chan<- []int) {
 	a := []int{}
 	for {
 		select {
@@ -32,27 +34,34 @@ func InsSort(c chan int, quit chan []int) {
 			a[j] = x
 		case quit <- a:
 			return
+		case <-request:
+			b := make([]int, len(a))
+			copy(b, a)
+			reply <- b
 		}
 
 	}
 }
 
 func main() {
-	c, q := make(chan int), make(chan []int)
+	c, request, reply, q := make(chan int), make(chan int), make(chan []int), make(chan []int)
 	var x int
-	go InsSort(c, q)
+	go InsSort(c, request, reply, q)
 	for {
-		if _, err := fmt.Scanf("%d", &x); err == nil {
+		if _, err := fmt.Scanf("%d\n", &x); err == nil {
 			c <- x
+			request <- 0
+			fmt.Println(<-reply)
 		} else {
 			break
 		}
 	}
 //	a := []int{6, 3, 12, 45, 92, 54, 21, -5, 98}
-//	c, q := make(chan int), make(chan []int)
-//	go InsSort(c, q)
+//	go InsSort(c,request, reply, q)
 //	for _, x := range a {
 //		c <- x
+//		request <- 0
+//		fmt.Println(<-reply)
 //	}
 	b := <-q
 	fmt.Println(b)
