@@ -13,12 +13,16 @@ type Graph struct {
 }
 
 // runs BFS starting from s and writes each discovered vertex to c
-// terminates when quit reads a value or when c no longer returns values`
+// when c is done returning values or quit reads a value, the program terminates 
+// if parent isn't nil, BFS stores the parent hierarchy in it 
 // assumes graph doesn't change while BFS executes
-func (g *Graph) BFS(s uint, c, quit chan uint) {
+func (g *Graph) BFS(s uint, c chan uint, quit chan uint, parent map[uint]uint) {
 	defer close(c)
 
-	discovered, parent := make(map[uint]bool), make(map[uint]uint)
+	discovered := make(map[uint]bool)
+	if parent == nil {
+		parent = make(map[uint]uint)
+	}
 	queue := make([]uint, 0)
 	queue = append(queue, s)
 	discovered[s] = true
@@ -42,6 +46,8 @@ func (g *Graph) BFS(s uint, c, quit chan uint) {
 	}
 }
 
+// runs BFS from s and sends each layer to l
+// terminates when BFS is complete or quit is read from
 func (g *Graph) BFS_layer(s uint, l chan []uint, quit chan uint) {
 	defer close(l)
 
@@ -69,9 +75,66 @@ func (g *Graph) BFS_layer(s uint, l chan []uint, quit chan uint) {
 	}
 }
 
-func Check_connected(g *Graph, s, t uint) bool {
+// performs DFS on g and sends encountered nodes through c
+// terminates when all vertices are traversed and sent through c or when a value is read from quit
+// stored the discovery, finishing times and parent hierarchy in d, f, parent
+// c, q, d, f, parent may be nil in which case no value is stored/sent/read
+func (g *Graph) DFS(c, quit chan uint, d, f map[uint]int, parent map[uint]uint)  {
+	const (
+		White = 0
+		Gray = 1
+		Black = 2
+	)
+	color := make(map[uint]byte) // nodes start as White , Gray on discovery, Black on completion
+	if d == nil {
+		d = make(map[uint]int)
+	}
+	if f == nil {
+		f = make(map[uint]int)
+	}
+	if parent == nil {
+		parent = make(map[uint]uint)
+	}
+	if c == nil {
+		c = make(chan uint)
+		go func() { for _ = range c {} }()
+	}
+	defer close(c)
+	time := 0
+
+	var dfs_visit func(u uint)
+	dfs_visit = func(u uint) {
+		select {
+		case c <- u:
+			time++
+			d[u] = time
+			color[u] = Gray
+		case <-quit:
+			return
+		}
+
+		for v := range g.E[u] {
+			if color[v] == White {
+				parent[v] = u
+				dfs_visit(v)
+			}
+		}
+		time++
+		f[u] = time
+		color[u] = Black
+	}
+
+	for u, _ := range g.E {
+		if color[u] == White {
+			dfs_visit(u)
+		}
+	}
+}
+
+func (g *Graph) Connected(s, t uint) bool {
 	c, quit := make(chan uint), make(chan uint)
-	go g.BFS(s, c, quit)
+	parent := make(map[uint]uint)
+	go g.BFS(s, c, quit, parent)
 	for v := range c {
 		fmt.Println(v)
 		if v == t {
@@ -109,13 +172,19 @@ func main() {
 			100: true,
 		},
 	}
-	if !Check_connected(g, 1, 230) {
+	if !g.Connected(1, 230) {
 		fmt.Println("failed!")
 	}
 
-	l, q := make(chan []uint), make(chan uint)
-	go g.BFS_layer(1, l, q)
-	for layer := range l {
-		fmt.Println(layer)
+//	l, q := make(chan []uint), make(chan uint)
+//	go g.BFS_layer(1, l, q)
+//	for layer := range l {
+//		fmt.Println(layer)
+//	}
+
+	c, q := make(chan uint), make(chan uint)
+	go g.DFS(c, q, nil, nil, nil)
+	for v := range c {
+		println(v)
 	}
 }
