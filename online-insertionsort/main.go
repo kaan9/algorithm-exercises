@@ -18,7 +18,7 @@ func InsSort(c <-chan int, request <-chan int, reply chan<- []int, quit chan<- [
 		select {
 		case x := <-c:
 			var lo, hi, j int
-			for lo, hi = 0, len(a); lo < hi-1; {
+			for lo, hi = 0, len(a); lo < hi-1; { // binary search
 				if a[(lo+hi)/2] > x {
 					hi = (lo+hi)/2
 				} else {
