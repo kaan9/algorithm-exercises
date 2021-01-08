@@ -49,6 +49,7 @@ func main() {
 	go InsSort(c, request, reply, q)
 	for {
 		if _, err := fmt.Scanf("%d\n", &x); err == nil {
+			//TODO: add some handling for bad input rather than just exiting
 			c <- x
 			request <- 0
 			fmt.Println(<-reply)
@@ -66,3 +67,8 @@ func main() {
 	b := <-q
 	fmt.Println(b)
 }
+
+
+
+
+

@@ -96,6 +96,6 @@ func main() {
 	fmt.Println(HeapSort(h))
 	for len(h) > 0 {
 		fmt.Println(h.HeapMaximum())
-		fmt.Println(h.ExtractMax())
+		fmt.Println(h.ExtractMax()) //FIXME: There is an error here
 	}
 }

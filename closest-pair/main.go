@@ -79,6 +79,6 @@ func ClosestPair(P []Point) (p, q Point, dist float32) {
 		pmin, qmin, dmin = pr, qr, dr
 	}
 	line := (P[len(P)/2-1] + P[len(P)/2])/2
-	
 
+	//FIXME: complete this algorithm
 }

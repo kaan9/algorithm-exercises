@@ -187,4 +187,6 @@ func main() {
 	for v := range c {
 		println(v)
 	}
+
+	//TODO: Implement other functions using BFS/DFS
 }

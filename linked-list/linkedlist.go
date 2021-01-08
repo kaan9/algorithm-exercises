@@ -26,3 +26,5 @@ func (l *List) append(v uint) {
 	}
 	*next = n
 }
+
+//TODO: complete this implementation

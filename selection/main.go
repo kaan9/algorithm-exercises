@@ -52,6 +52,8 @@ func qselect(s []int, k int, get_p_index func([]int) int) int {
 
 }
 
+// TODO: implement deterministic selection in O(n)
+
 func main() {
 	s := []int{9, 2, 1, 4, 2, 4, 0, 8, 23, 645, 1, 34, -12, 3, 120, 998, 34, 71, 23, 76, 35}
 	for i := 0; i < len(s); i++ {

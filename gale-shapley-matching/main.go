@@ -59,3 +59,5 @@ func GaleShapley(M [][]int, W [][]int) []int{
 	}
 	return matching
 }
+
+//TODO: write some tests and verify
