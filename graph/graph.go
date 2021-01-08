@@ -13,8 +13,8 @@ type Graph struct {
 }
 
 // runs BFS starting from s and writes each discovered vertex to c
-// when c is done returning values or quit reads a value, the program terminates 
-// if parent isn't nil, BFS stores the parent hierarchy in it 
+// when c is done returning values or quit reads a value, the program terminates
+// if parent isn't nil, BFS stores the parent hierarchy in it
 // assumes graph doesn't change while BFS executes
 func (g *Graph) BFS(s uint, c chan uint, quit chan uint, parent map[uint]uint) {
 	defer close(c)
@@ -79,10 +79,10 @@ func (g *Graph) BFS_layer(s uint, l chan []uint, quit chan uint) {
 // terminates when all vertices are traversed and sent through c or when a value is read from quit
 // stored the discovery, finishing times and parent hierarchy in d, f, parent
 // c, q, d, f, parent may be nil in which case no value is stored/sent/read
-func (g *Graph) DFS(c, quit chan uint, d, f map[uint]int, parent map[uint]uint)  {
+func (g *Graph) DFS(c, quit chan uint, d, f map[uint]int, parent map[uint]uint) {
 	const (
 		White = 0
-		Gray = 1
+		Gray  = 1
 		Black = 2
 	)
 	color := make(map[uint]byte) // nodes start as White , Gray on discovery, Black on completion
@@ -97,7 +97,10 @@ func (g *Graph) DFS(c, quit chan uint, d, f map[uint]int, parent map[uint]uint) 
 	}
 	if c == nil {
 		c = make(chan uint)
-		go func() { for _ = range c {} }()
+		go func() {
+			for _ = range c {
+			}
+		}()
 	}
 	defer close(c)
 	time := 0
@@ -176,11 +179,11 @@ func main() {
 		fmt.Println("failed!")
 	}
 
-//	l, q := make(chan []uint), make(chan uint)
-//	go g.BFS_layer(1, l, q)
-//	for layer := range l {
-//		fmt.Println(layer)
-//	}
+	//	l, q := make(chan []uint), make(chan uint)
+	//	go g.BFS_layer(1, l, q)
+	//	for layer := range l {
+	//		fmt.Println(layer)
+	//	}
 
 	c, q := make(chan uint), make(chan uint)
 	go g.DFS(c, q, nil, nil, nil)

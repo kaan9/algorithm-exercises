@@ -11,5 +11,5 @@ func gcd(a uint, b uint) uint {
 }
 
 func main() {
-	fmt.Println(gcd(674,234))
+	fmt.Println(gcd(674, 234))
 }

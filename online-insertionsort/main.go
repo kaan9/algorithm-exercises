@@ -20,9 +20,9 @@ func InsSort(c <-chan int, request <-chan int, reply chan<- []int, quit chan<- [
 			var lo, hi, j int
 			for lo, hi = 0, len(a); lo < hi-1; { // binary search
 				if a[(lo+hi)/2] > x {
-					hi = (lo+hi)/2
+					hi = (lo + hi) / 2
 				} else {
-					lo = (lo+hi)/2
+					lo = (lo + hi) / 2
 				}
 			}
 			j = hi
@@ -57,18 +57,13 @@ func main() {
 			break
 		}
 	}
-//	a := []int{6, 3, 12, 45, 92, 54, 21, -5, 98}
-//	go InsSort(c,request, reply, q)
-//	for _, x := range a {
-//		c <- x
-//		request <- 0
-//		fmt.Println(<-reply)
-//	}
+	//	a := []int{6, 3, 12, 45, 92, 54, 21, -5, 98}
+	//	go InsSort(c,request, reply, q)
+	//	for _, x := range a {
+	//		c <- x
+	//		request <- 0
+	//		fmt.Println(<-reply)
+	//	}
 	b := <-q
 	fmt.Println(b)
 }
-
-
-
-
-

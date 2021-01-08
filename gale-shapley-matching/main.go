@@ -5,12 +5,12 @@ import "fmt"
 // preferences of n = len(M) = len(W) men and women where M[i] is the preference list of man i
 // that is M[i][0] is the top preference, M[i][1] is the second choice, etc, same for W
 // returns a stable matching where j = matching[i] corresponds to the pair (i, j)
-func GaleShapley(M [][]int, W [][]int) []int{
+func GaleShapley(M [][]int, W [][]int) []int {
 	// use 0 to indicate an unmatched, n to indicate a match to the 0th man/woman
 	n := len(M)
 	matching, inv_matching := make([]int, n), make([]int, n)
 	proposed := make([][]bool, n, n) // (i, j) == has man i proposed to woman j
-	free_queue := make([]int, n) //queue of men who aren't engaged
+	free_queue := make([]int, n)     //queue of men who aren't engaged
 	for i := 0; i < n; i++ {
 		free_queue[i] = i
 	}

@@ -1,7 +1,7 @@
 package linkedlist
 
 type node struct {
-	val uint
+	val  uint
 	next *node
 }
 

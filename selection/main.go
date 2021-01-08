@@ -36,7 +36,7 @@ func qselect(s []int, k int, get_p_index func([]int) int) int {
 	}
 	var p_index int
 	if get_p_index == nil {
-		p_index = (len(s) - 1)/2
+		p_index = (len(s) - 1) / 2
 	} else {
 		p_index = get_p_index(s)
 	}

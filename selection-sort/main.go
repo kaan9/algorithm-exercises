@@ -6,7 +6,7 @@ func selectionsort(s []int) {
 	n := len(s)
 	for i := 0; i < n; i++ {
 		min := i
-		for j := i+1; j < n; j++ {
+		for j := i + 1; j < n; j++ {
 			if s[min] > s[j] {
 				min = j
 			}
@@ -19,7 +19,7 @@ func doubleselection(s []int) {
 	n := len(s)
 	for i := 0; i < n/2; i++ {
 		min, max := i, n-i-1
-		for j := min+1; j < n-i-1; j++ {
+		for j := min + 1; j < n-i-1; j++ {
 			if s[min] > s[j] {
 				min = j
 			} else if s[max] < s[j] {

@@ -38,7 +38,7 @@ func qsort(s []Point, quit chan int, get_p_index func([]int) int) {
 	}
 	var p_index int
 	if get_p_index == nil {
-		p_index = (len(s) - 1)/2
+		p_index = (len(s) - 1) / 2
 	} else {
 		p_index = get_p_index(s)
 	}
@@ -53,8 +53,6 @@ func qsort(s []Point, quit chan int, get_p_index func([]int) int) {
 	quit <- 0
 }
 
-
-
 // returns closest pair and the distance between them
 // if len(P) < 2 returns -1 for dist
 func ClosestPair(P []Point) (p, q Point, dist float32) {
@@ -66,19 +64,21 @@ func ClosestPair(P []Point) (p, q Point, dist float32) {
 	q := make(chan int)
 	qsort(s, q, nil)
 	<-q
-	(pl, ql, dl), (pr, qr, dr) := ClosestPair(P[:len(P)/2]), ClosestPair(P[len(P)/2:])
+	pl, ql, dl := ClosestPair(P[:len(P)/2])
+	pr, qr, dr := ClosestPair(P[len(P)/2:])
 	if dl < 0 {
 		return pr, qr, dr
 	} else if dr < 0 {
 		return pl, ql, dl
 	}
-	var pmin, qmin Point, dmin float32
+	var pmin, qmin Point
+	var dmin float32
 	if dl < dr {
 		pmin, qmin, dmin = pl, ql, dl
 	} else {
 		pmin, qmin, dmin = pr, qr, dr
 	}
-	line := (P[len(P)/2-1] + P[len(P)/2])/2
+	line := (P[len(P)/2-1] + P[len(P)/2]) / 2
 
 	//FIXME: complete this algorithm
 }

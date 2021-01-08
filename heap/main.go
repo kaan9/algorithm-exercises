@@ -8,17 +8,17 @@ type Comparer interface {
 
 type MaxHeap []int
 
-func parent(i int) int { return (i-1)/2 }
+func parent(i int) int { return (i - 1) / 2 }
 
-func left(i int) int { return 2*i+1 }
+func left(i int) int { return 2*i + 1 }
 
-func right(i int) int { return 2*i+2 }
+func right(i int) int { return 2*i + 2 }
 
 func NewMaxHeap(a []int) MaxHeap {
 	var h MaxHeap
 	h = make([]int, len(a))
 	copy(h, a)
-	for i := len(h)/2+1; i >= 0; i-- {
+	for i := len(h)/2 + 1; i >= 0; i-- {
 		h.maxheapify(i)
 	}
 	return h
@@ -46,7 +46,7 @@ func (h MaxHeap) maxheapify(i int) {
 //consumes the heap
 func HeapSort(h MaxHeap) []int {
 	n := len(h)
-	for i := n-1; i > 0; i-- {
+	for i := n - 1; i > 0; i-- {
 		h[0], h[i] = h[i], h[0]
 		h[:i].maxheapify(0)
 	}
@@ -88,7 +88,6 @@ func (h MaxHeap) HeapMaximum() (x int, ok bool) {
 	}
 	return h[0], true
 }
-
 
 func main() {
 	s := []int{9, 2, 1, 4, 2, 4, 0, 8, 23, 645, 1, 34, -12, 3, 120, 998, 34, 71, 23, 76, 35}
